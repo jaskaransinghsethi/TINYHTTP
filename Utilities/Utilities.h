@@ -66,7 +66,7 @@ namespace Utilities
       return toTrim;
     std::basic_string<T> temp;
     std::locale loc;
-    std::basic_string<T>::const_iterator iter = toTrim.begin();
+    typename std::basic_string<T>::const_iterator iter = toTrim.begin();
     while (isspace(*iter, loc))
     {
       if (++iter == toTrim.end())
@@ -78,7 +78,7 @@ namespace Utilities
     {
       temp += *iter;
     }
-    std::basic_string<T>::reverse_iterator riter;
+    typename std::basic_string<T>::reverse_iterator riter;
     size_t pos = temp.size();
     for (riter = temp.rbegin(); riter != temp.rend(); ++riter)
     {
@@ -100,7 +100,7 @@ namespace Utilities
   {
     std::vector<std::basic_string<T>> splits;
     std::basic_string<T> temp;
-    std::basic_string<T>::const_iterator iter;
+    typename std::basic_string<T>::const_iterator iter;
     for (iter = toSplit.begin(); iter != toSplit.end(); ++iter)
     {
       if (*iter != splitOn)

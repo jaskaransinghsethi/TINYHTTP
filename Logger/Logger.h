@@ -44,7 +44,7 @@
 class Logger
 {
 public:
-  Logger() {}
+  Logger() { }
   void attach(std::ostream* pOut);
   void start();
   void stop(const std::string& msg = "");

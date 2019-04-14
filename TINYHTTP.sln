@@ -15,6 +15,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zWindowsHelpers", "WindowsH
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Message", "Message\Message.vcxproj", "{474DAC7D-66ED-4E2B-B545-8218A406544B}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CommCore", "CommCore\CommCore.vcxproj", "{369DB6FB-24F9-4C1C-9CC2-6EFAE35D77EB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -67,6 +69,14 @@ Global
 		{474DAC7D-66ED-4E2B-B545-8218A406544B}.Release|x64.Build.0 = Release|x64
 		{474DAC7D-66ED-4E2B-B545-8218A406544B}.Release|x86.ActiveCfg = Release|Win32
 		{474DAC7D-66ED-4E2B-B545-8218A406544B}.Release|x86.Build.0 = Release|Win32
+		{369DB6FB-24F9-4C1C-9CC2-6EFAE35D77EB}.Debug|x64.ActiveCfg = Debug|x64
+		{369DB6FB-24F9-4C1C-9CC2-6EFAE35D77EB}.Debug|x64.Build.0 = Debug|x64
+		{369DB6FB-24F9-4C1C-9CC2-6EFAE35D77EB}.Debug|x86.ActiveCfg = Debug|Win32
+		{369DB6FB-24F9-4C1C-9CC2-6EFAE35D77EB}.Debug|x86.Build.0 = Debug|Win32
+		{369DB6FB-24F9-4C1C-9CC2-6EFAE35D77EB}.Release|x64.ActiveCfg = Release|x64
+		{369DB6FB-24F9-4C1C-9CC2-6EFAE35D77EB}.Release|x64.Build.0 = Release|x64
+		{369DB6FB-24F9-4C1C-9CC2-6EFAE35D77EB}.Release|x86.ActiveCfg = Release|Win32
+		{369DB6FB-24F9-4C1C-9CC2-6EFAE35D77EB}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
