@@ -35,7 +35,7 @@ private:
 class HTTPRequest {
 public:
 	//Type of HTTP Request
-	enum HTTPMethod { GET, POST, DELETE, HEAD };				//Only supports get, post and delete methods for now
+	enum HTTPMethod { GET, POST, DELETE, HEAD };				//Only supports get, post methods for now
 
 	//Constructors
 	HTTPRequest() : method_(GET), fileSpec_("test.htm") { }			//By default, send a get request to access test.html
@@ -50,7 +50,7 @@ public:
 	void setfileSpec(std::string fileSpec) { fileSpec_ = fileSpec; }
 
 	//toString & fromString functions
-	std::string toString() const;
+	std::string toString(bool full = false) const;
 	static HTTPRequest fromString(const std::string& httprequest);
 
 private:
@@ -74,7 +74,7 @@ public:
 	std::string getStatusRes() const;
 
 	//toString & fromString function
-	std::string toString() const;
+	std::string toString(bool full = true) const;
 	static HTTPResponse fromString(const std::string& response);
 
 private:
@@ -105,15 +105,17 @@ public:
 
 	//Getter & Setter for body's size
 	size_t getSize() const { return body_.size(); }
-	void setSize(size_t size) { body_.reserve(size); }
+	void setSize(size_t size) { body_.resize(size); }
 
 	//Starting & Ending of the body
 	iterator begin() { return body_.begin(); }
 	iterator end() { return body_.end(); }
 
 	//Setter & getter for body
-	void setBody(size_t size, byte* body) { body_.reserve(size); std::memcpy(&body_[0], body, size); }
+	void setBody(size_t size, byte* body) { body_.resize(size); std::memcpy(&body_[0], body, size); }
+	void setBody(std::string& body) { body_.insert(body_.end(), body.begin(), body.end());}
 	std::vector<byte>& getBody() { return body_; }
+	std::vector<byte> getBody() const { return body_; }
 	void clear() { body_.clear(); }
 
 	//Display body to output stream
@@ -162,7 +164,8 @@ public:
 	void clearMsg();
 
 	//fromString & toString functions
-	std::string toStringMsg();
+	std::string toHeaderStr();
+	std::string toFullStr();
 	static HTTPMessage<T> fromStringMsg(const std::string& str);
 
 	//Display message to ouput stream
@@ -247,9 +250,16 @@ inline typename HTTPMessage<T>::Value HTTPMessage<T>::getValueFromAtt(const Attr
 template<typename T>
 inline size_t HTTPMessage<T>::getContentLength()
 {
-	auto iter = attributes_.find("content-length");
-	if (iter != attributes_.end()) {
-		return stoi(iter->second());
+	if (containsKey("content-length"))
+	{
+		std::string lenStr = attributes_["content-length"];
+		return Utilities::Converter<size_t>::toValue(lenStr);
+	}
+	else {
+		if (containsKey("Content-Length")) {
+			std::string lenStr = attributes_["Content-Length"];
+			return Utilities::Converter<size_t>::toValue(lenStr);
+		}
 	}
 	return 0;
 }
@@ -265,7 +275,7 @@ inline std::string HTTPMessage<T>::getName()
 {
 	auto iter = attributes_.find("name");
 	if (iter != attributes_.end()) {
-		return stoi(iter->second());
+		return iter->second();
 	}
 	return "";
 }
@@ -281,7 +291,7 @@ inline std::string HTTPMessage<T>::getAction()
 {
 	auto iter = attributes_.find("action");
 	if (iter != attributes_.end()) {
-		return stoi(iter->second());
+		return std::stoi(iter->second());
 	}
 	return "";
 }
@@ -340,9 +350,9 @@ inline void HTTPMessage<T>::clearMsg()
 }
 
 template<typename T>
-inline std::string HTTPMessage<T>::toStringMsg()
+inline std::string HTTPMessage<T>::toHeaderStr()
 {
-	std::string str = type_.toString();
+	std::string str = type_.toString(true);
 
 	if (attributes_.size() > 0)
 		str += "\n";
@@ -355,6 +365,17 @@ inline std::string HTTPMessage<T>::toStringMsg()
 	str += "\n";
 
 	return str;
+}
+
+template<typename T>
+inline std::string HTTPMessage<T>::toFullStr()
+{
+	std::string temp = toHeaderStr();
+	if (body_.size() > 0) {
+		temp += (toString() + "\n");
+	}
+	
+	return temp;
 }
 
 template<>
@@ -431,7 +452,7 @@ inline HTTPMessage<HTTPResponse> HTTPMessage<HTTPResponse>::fromStringMsg(const 
 template<typename T>
 inline void HTTPMessage<T>::showMessage(std::ostream& out)
 {
-	std::string temp = toString();  // convert this HttpRequestMessage to string
+	std::string temp = toFullStr();  // convert this HttpRequestMessage to string
 	size_t pos = temp.find_last_of('\n');
 	if (pos < temp.size())
 	{

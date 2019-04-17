@@ -1,6 +1,7 @@
 #include "CommCore.h"
 
+#ifdef TEST_COMM
 int main() {
-
-	return 0;
+	//do nothing
 }
+#endif

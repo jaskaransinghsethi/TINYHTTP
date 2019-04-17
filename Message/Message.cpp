@@ -11,7 +11,7 @@ std::string HTTPResponse::getStatusRes() const
 	return "";
 }
 
-std::string HTTPResponse::toString() const
+std::string HTTPResponse::toString(bool full) const
 {
 	return "HTTP/1.1 " + std::to_string(statusCode_) + " " + getStatusRes();
 }
@@ -47,7 +47,7 @@ EndPoint EndPoint::fromString(const std::string& endPoint)
 	return ep;
 }
 
-std::string HTTPRequest::toString() const
+std::string HTTPRequest::toString(bool full) const
 {
 	std::string commandString;
 	switch (method_)
@@ -67,11 +67,11 @@ std::string HTTPRequest::toString() const
 	default:
 		commandString = "GET";
 	}
-
-	commandString += " ";
-	commandString += fileSpec_;
-	commandString += " HTTP/1.1";
-
+	if (full) {
+		commandString += " ";
+		commandString += fileSpec_;
+		commandString += " HTTP/1.1";
+	}
 	return commandString;
 }
 
@@ -130,6 +130,8 @@ std::string HTTPBody::toString() const {
 	return temp;
 }
 
+//#define TEST_MESSAGE
+#ifdef TEST_MESSAGE
 
 int main(int argc, char** argv) {
 	using UTIL = StringHelper;
@@ -149,16 +151,63 @@ int main(int argc, char** argv) {
 	HTTPRequest request(HTTPRequest::HTTPMethod::GET,"test.htm");
 	std::cout << "\n Request method: " << request.getMethod();
 	std::cout << "\n Filespec: " << request.getfileSpec();
-	std::cout << "\n Header: " << request.toString();
-	std::cout << "Testing fromString function";
+	std::cout << "\n Header: " << request.toString(true);
+	std::cout << "\n Testing fromString function";
 	request = HTTPRequest::fromString("POST test.htm");
-	std::cout << "\n Header: " << request.toString();
+	std::cout << "\n Header: " << request.toString(true);
+	std::cout << "\n";
 
-	//Testing HTTP Response CLASS
+	//Testing HTTP Response class
 	UTIL::Title("TESTING HTTP Response CLASS");
+	HTTPResponse response(200);
+	std::cout << "\n" << response.getStatusCode();
+	std::cout << "\n" << response.getStatusRes();
+	std::cout << "\n" << response.toString();
+	std::cout << std::endl;
 
+	//Testing HTTP Message class
+	UTIL::Title("Testing HTTPMessage Class");
+	HTTPMessage<HTTPRequest> get = createHTTPRequestMessage(HTTPRequest::GET, "test.html");
+	get.showMessage(std::cout);
+	HTTPMessage<HTTPRequest> post = createHTTPRequestMessage(HTTPRequest::POST, "test.html");
+	post.showMessage();
+	HTTPMessage<HTTPRequest> head = createHTTPRequestMessage(HTTPRequest::HEAD, "test.html");
+	head.showMessage();
+	HTTPMessage<HTTPRequest> del = createHTTPRequestMessage(HTTPRequest::DELETE, "test.html");
+	del.showMessage();
+	std::cout << std::endl;
 
+	UTIL::title("Testing with browser request string");
+	std::string chromeStr =
+		std::string("GET /foobar.htm?name=value HTTP/1.1\n") +
+		"Host: localhost:36895\n" +
+		"Connection: keep-alive\n" +
+		"Cache-Control: max-age=0\n" +
+		"Content-Length: 10\n" +
+		"Upgrade-Insecure-Requests: 1\n" +
+		"User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36\n" +
+		"Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8\n" +
+		"Accept-Encoding: gzip, deflate, br\n" +
+		"Accept-Language: en-US,en;q=0.9\n\n";
+	std::cout << "\n" + chromeStr;
+	std::cout << "\n";
 
-	getchar();
+	HTTPMessage<HTTPRequest> testMsg = HTTPMessage<HTTPRequest>::fromStringMsg(chromeStr);
+	testMsg.showMessage();
+	std::cout << "\n";
+
+	UTIL::Title("Testing HTTPMessage Response");
+	HTTPMessage<HTTPResponse> reply = createHTTPResponseMessage(200);
+	std::string msgBody = "<h3>Testing HTTP Response </h3>";
+	reply.setBody(msgBody);
+	reply.setContentLength(msgBody.size());
+	reply.showMessage();
+	std::cout << std::endl;
+
+	std::cout << "\nTesting toString() function for HTTPMessage response";
+	std::cout << "\n" << reply.toFullStr();
+
 	return 0;
 }
+
+#endif

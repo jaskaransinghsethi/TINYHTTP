@@ -26,7 +26,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
@@ -126,15 +126,15 @@
     <ClInclude Include="CommCore.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CommCore.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Message\Message.vcxproj">
       <Project>{474dac7d-66ed-4e2b-b545-8218a406544b}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Sockets\Sockets.vcxproj">
       <Project>{ca3129b8-1bf4-44c9-b116-53ec72d0bccb}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CommCore.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

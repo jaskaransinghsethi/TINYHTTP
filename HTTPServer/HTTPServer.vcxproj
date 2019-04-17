@@ -20,8 +20,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
-    <ProjectGuid>{0AC24ACE-1651-49FF-9BF9-1062169F0354}</ProjectGuid>
-    <RootNamespace>HTTPClient</RootNamespace>
+    <ProjectGuid>{76316ED1-2F24-42FD-8D0E-8042AB27670F}</ProjectGuid>
+    <RootNamespace>HTTPServer</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -123,10 +123,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="HTTPClient.h" />
+    <ClInclude Include="HTTPServer.h" />
+    <ClInclude Include="HTTPServerProc.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="HTTPClient.cpp" />
+    <ClCompile Include="HTTPServer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommCore\CommCore.vcxproj">
@@ -137,9 +138,6 @@
     </ProjectReference>
     <ProjectReference Include="..\Sockets\Sockets.vcxproj">
       <Project>{ca3129b8-1bf4-44c9-b116-53ec72d0bccb}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Utilities\Utilities.vcxproj">
-      <Project>{462b43b2-8b13-4178-bf2a-903f76f1985c}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
