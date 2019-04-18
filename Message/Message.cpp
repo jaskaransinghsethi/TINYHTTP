@@ -64,6 +64,9 @@ std::string HTTPRequest::toString(bool full) const
 	case HEAD:
 		commandString = "HEAD";
 		break;
+	case PUT:
+		commandString = "PUT";
+		break;
 	default:
 		commandString = "GET";
 	}
@@ -85,6 +88,7 @@ HTTPRequest HTTPRequest::fromString(const std::string& httprequest)
 		if (method == "POST") request.method_ = POST;
 		if (method == "DELETE") request.method_ = DELETE;
 		if (method == "HEAD") request.method_ = HEAD;
+		if(method == "PUT") request.method_ = PUT;
 		request.fileSpec_ = httprequest.substr(pos + 1);
 	}
 	else {

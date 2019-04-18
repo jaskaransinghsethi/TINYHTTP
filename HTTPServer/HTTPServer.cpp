@@ -21,7 +21,7 @@ HTTPMessage<HTTPResponse> HTTPServerCore::doProc(HTTPMessage<HTTPRequest>& msg)
 	}
 	else  // process HTTP command
 	{
-		Key procKey = msg.getType().toString();
+		Key procKey = msg.getType().toString(false);
 		if (containsKey(procKey))
 		{
 			HTTPMessage<HTTPResponse> reply = dispatcher_[procKey](msg);
@@ -80,18 +80,23 @@ int main() {
 		//Adding processing methods for get and post request
 		server.addProc("GET", getProc);
 		server.addProc("POST", postProc);
+		server.addProc("HEAD", headProc);
+		server.addProc("PUT", putProc);
 
 		ClientHandler cp(&server);
 		server.start<ClientHandler>(cp);
 		
+		//UTIL::title("Press any key to exit");
+		//
+		////Flushing the stream for any bad bit
+		//std::cout.flush();
+		////std::cin.get();
 		getchar();
 	}
 
 	catch (std::exception & ex) {
 		std::cout << "\n Exception occurred:" << ex.what();
 	}
-
-
 }
 
 #endif

@@ -14,6 +14,7 @@ public:
 	
 	HTTPMessage<HTTPRequest> getMessage();
 	void postMessage(HTTPMessage<HTTPResponse> msg);
+
 	HTTPMessage<HTTPResponse> doProc(HTTPMessage<HTTPRequest>& msg);
 
 	void addProc(Key key, MessageProcessType proc);

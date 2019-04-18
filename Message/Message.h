@@ -35,7 +35,7 @@ private:
 class HTTPRequest {
 public:
 	//Type of HTTP Request
-	enum HTTPMethod { GET, POST, DELETE, HEAD };				//Only supports get, post methods for now
+	enum HTTPMethod { GET, POST, DELETE, HEAD, PUT };				
 
 	//Constructors
 	HTTPRequest() : method_(GET), fileSpec_("test.htm") { }			//By default, send a get request to access test.html
@@ -50,7 +50,7 @@ public:
 	void setfileSpec(std::string fileSpec) { fileSpec_ = fileSpec; }
 
 	//toString & fromString functions
-	std::string toString(bool full = false) const;
+	std::string toString(bool full = true) const;
 	static HTTPRequest fromString(const std::string& httprequest);
 
 private:
@@ -382,12 +382,13 @@ template<>
 inline HTTPMessage<HTTPRequest> HTTPMessage<HTTPRequest>::fromStringMsg(const std::string& str)
 {
 	std::vector<std::string> splits = Utilities::StringHelper::split(str, '\n');
-	if (splits.size() > 1)
+	if (splits.size() >= 1)
 	{
 		std::vector<std::string> cmdSplits = Utilities::StringHelper::split(splits[0], ' ');
 		HTTPMessage<HTTPRequest> msg;
 		if (cmdSplits.size() > 1)
 		{
+			
 			msg.getType() = HTTPRequest::fromString(splits[0]);
 			msg.getType().setfileSpec(cmdSplits[1]);
 		}
