@@ -1,5 +1,6 @@
 #ifndef WINDOWSHELPERS_H
 #define WINDOWSHELPERS_H
+//#define _ITERATOR_DEBUG_LEVEL 0
 /////////////////////////////////////////////////////////////////////
 // WindowsHelper.h - small helper functions for using Windows API  //
 // ver 1.0                                                         //

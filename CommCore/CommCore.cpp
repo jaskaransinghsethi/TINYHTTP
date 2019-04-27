@@ -1,7 +1,9 @@
+#pragma once
+
 #include "CommCore.h"
 
-#ifdef TEST_COMM
+#ifdef TEST_CommCore
 int main() {
-	//do nothing
+
 }
 #endif

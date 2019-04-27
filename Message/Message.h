@@ -1,5 +1,4 @@
 #pragma once
-
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -35,12 +34,12 @@ private:
 class HTTPRequest {
 public:
 	//Type of HTTP Request
-	enum HTTPMethod { GET, POST, DELETE, HEAD, PUT };				
+	enum HTTPMethod { GET, POST, DELETE, HEAD, PUT };
 
 	//Constructors
 	HTTPRequest() : method_(GET), fileSpec_("test.htm") { }			//By default, send a get request to access test.html
-	HTTPRequest(HTTPMethod method, const std::string fileSpec) : method_(method), fileSpec_(fileSpec){ }
-	
+	HTTPRequest(HTTPMethod method, const std::string fileSpec) : method_(method), fileSpec_(fileSpec) { }
+
 	//Getter & Setter for http method
 	HTTPRequest::HTTPMethod getMethod() { return method_; }
 	void setMethod(HTTPMethod method) { method_ = method; }
@@ -113,18 +112,17 @@ public:
 
 	//Setter & getter for body
 	void setBody(size_t size, byte* body) { body_.resize(size); std::memcpy(&body_[0], body, size); }
-	void setBody(std::string& body) { body_.insert(body_.end(), body.begin(), body.end());}
+	void setBody(std::string& body) { body_.insert(body_.end(), body.begin(), body.end()); }
 	std::vector<byte>& getBody() { return body_; }
 	std::vector<byte> getBody() const { return body_; }
 	void clear() { body_.clear(); }
 
 	//Display body to output stream
-	void show(std::ostream& out = std::cout ) const;
+	void show(std::ostream& out = std::cout) const;
 
 	//toString and fromString functions
 	std::string toString() const;
 	static HTTPBody fromString(const std::string& strBody) { HTTPBody body(strBody); return body; }
-protected:
 	std::vector<byte> body_;
 };
 
@@ -141,7 +139,7 @@ public:
 
 	//Constructors
 	HTTPMessage() = default;
-	
+
 	//Getters & Setters for type, attributes and different (key,value) pairs
 	T& getType();
 	Attributes& getAttributes();
@@ -177,7 +175,7 @@ private:
 };
 
 //Creating HTTP Request Messages
-inline HTTPMessage<HTTPRequest> createHTTPRequestMessage(const HTTPRequest::HTTPMethod& method, const std::string& fileSpec){
+inline HTTPMessage<HTTPRequest> createHTTPRequestMessage(const HTTPRequest::HTTPMethod& method, const std::string& fileSpec) {
 	HTTPMessage<HTTPRequest> msg;
 	HTTPRequest request(method, fileSpec);
 	msg.getType() = request;
@@ -194,7 +192,7 @@ inline HTTPMessage<HTTPResponse> createHTTPResponseMessage(size_t statusCode) {
 
 
 template<typename T>
-inline T& HTTPMessage<T>::getType(){
+inline T& HTTPMessage<T>::getType() {
 	return type_;
 }
 
@@ -230,7 +228,7 @@ inline bool HTTPMessage<T>::containsKey(const Key& key) const
 }
 
 template<typename T>
-inline typename HTTPMessage<T>::Key HTTPMessage<T>::getKeyFromAtt(const Attribute& attribute)
+inline typename HTTPMessage<T>::Key HTTPMessage<T>::getKeyFromAtt(const Attribute & attribute)
 {
 	size_t pos = attribute.find_first_of(':');
 	if (0 <= pos && pos < attribute.length())
@@ -239,12 +237,12 @@ inline typename HTTPMessage<T>::Key HTTPMessage<T>::getKeyFromAtt(const Attribut
 }
 
 template<typename T>
-inline typename HTTPMessage<T>::Value HTTPMessage<T>::getValueFromAtt(const Attribute& attribute)
+inline typename HTTPMessage<T>::Value HTTPMessage<T>::getValueFromAtt(const Attribute & attribute)
 {
 	size_t pos = attribute.find_first_of(':');
-    if (0 <= pos && pos < attribute.length())
-      return attribute.substr(pos + 1, attribute.length() - pos);
-    return "";
+	if (0 <= pos && pos < attribute.length())
+		return attribute.substr(pos + 1, attribute.length() - pos);
+	return "";
 }
 
 template<typename T>
@@ -265,7 +263,7 @@ inline size_t HTTPMessage<T>::getContentLength()
 }
 
 template<typename T>
-inline void HTTPMessage<T>::setContentLength(const size_t& size)
+inline void HTTPMessage<T>::setContentLength(const size_t & size)
 {
 	attributes_["content-length"] = std::to_string(size);
 }
@@ -281,7 +279,7 @@ inline std::string HTTPMessage<T>::getName()
 }
 
 template<typename T>
-inline void HTTPMessage<T>::setName(const std::string& name)
+inline void HTTPMessage<T>::setName(const std::string & name)
 {
 	attributes_["name"] = name;
 }
@@ -297,7 +295,7 @@ inline std::string HTTPMessage<T>::getAction()
 }
 
 template<typename T>
-inline void HTTPMessage<T>::setAction(const std::string& action)
+inline void HTTPMessage<T>::setAction(const std::string & action)
 {
 	attributes_["action"] = action;
 }
@@ -374,12 +372,12 @@ inline std::string HTTPMessage<T>::toFullStr()
 	if (body_.size() > 0) {
 		temp += (toString() + "\n");
 	}
-	
+
 	return temp;
 }
 
 template<>
-inline HTTPMessage<HTTPRequest> HTTPMessage<HTTPRequest>::fromStringMsg(const std::string& str)
+inline HTTPMessage<HTTPRequest> HTTPMessage<HTTPRequest>::fromStringMsg(const std::string & str)
 {
 	std::vector<std::string> splits = Utilities::StringHelper::split(str, '\n');
 	if (splits.size() >= 1)
@@ -388,7 +386,7 @@ inline HTTPMessage<HTTPRequest> HTTPMessage<HTTPRequest>::fromStringMsg(const st
 		HTTPMessage<HTTPRequest> msg;
 		if (cmdSplits.size() > 1)
 		{
-			
+
 			msg.getType() = HTTPRequest::fromString(splits[0]);
 			msg.getType().setfileSpec(cmdSplits[1]);
 		}
@@ -415,7 +413,7 @@ inline HTTPMessage<HTTPRequest> HTTPMessage<HTTPRequest>::fromStringMsg(const st
 }
 
 template <>
-inline HTTPMessage<HTTPResponse> HTTPMessage<HTTPResponse>::fromStringMsg(const std::string& str)
+inline HTTPMessage<HTTPResponse> HTTPMessage<HTTPResponse>::fromStringMsg(const std::string & str)
 {
 	std::vector<std::string> splits = Utilities::StringHelper::split(str, '\n');
 	if (splits.size() > 1)
@@ -451,7 +449,7 @@ inline HTTPMessage<HTTPResponse> HTTPMessage<HTTPResponse>::fromStringMsg(const 
 }
 
 template<typename T>
-inline void HTTPMessage<T>::showMessage(std::ostream& out)
+inline void HTTPMessage<T>::showMessage(std::ostream & out)
 {
 	std::string temp = toFullStr();  // convert this HttpRequestMessage to string
 	size_t pos = temp.find_last_of('\n');

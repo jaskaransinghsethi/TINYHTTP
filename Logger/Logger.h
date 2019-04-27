@@ -1,5 +1,6 @@
 #ifndef LOGGER_H
 #define LOGGER_H
+//#define _ITERATOR_DEBUG_LEVEL 0
 /////////////////////////////////////////////////////////////////////
 // Logger.h - log text messages to std::ostream                    //
 // ver 1.0                                                         //

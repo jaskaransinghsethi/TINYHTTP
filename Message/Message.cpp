@@ -16,13 +16,13 @@ std::string HTTPResponse::toString(bool full) const
 	return "HTTP/1.1 " + std::to_string(statusCode_) + " " + getStatusRes();
 }
 
-HTTPResponse HTTPResponse::fromString(const std::string& response)
+HTTPResponse HTTPResponse::fromString(const std::string & response)
 {
 	HTTPResponse reply;
 	auto find1 = response.find_first_of(' ');
 	auto find2 = response.find_last_of(' ');
 	if (find1 != response.npos && find2 != response.npos) {
-		reply.statusCode_ = stoi(response.substr(find1, find2-find1));
+		reply.statusCode_ = stoi(response.substr(find1, find2 - find1));
 	}
 	else {
 		reply.statusCode_ = 400;
@@ -36,7 +36,7 @@ std::string EndPoint::toString() const
 	return address_ + ":" + std::to_string(port_);
 }
 
-EndPoint EndPoint::fromString(const std::string& endPoint)
+EndPoint EndPoint::fromString(const std::string & endPoint)
 {
 	EndPoint ep;
 	size_t pos = endPoint.find(":");
@@ -78,7 +78,7 @@ std::string HTTPRequest::toString(bool full) const
 	return commandString;
 }
 
-HTTPRequest HTTPRequest::fromString(const std::string& httprequest)
+HTTPRequest HTTPRequest::fromString(const std::string & httprequest)
 {
 	HTTPRequest request;
 	size_t pos = httprequest.find(" ");
@@ -88,7 +88,7 @@ HTTPRequest HTTPRequest::fromString(const std::string& httprequest)
 		if (method == "POST") request.method_ = POST;
 		if (method == "DELETE") request.method_ = DELETE;
 		if (method == "HEAD") request.method_ = HEAD;
-		if(method == "PUT") request.method_ = PUT;
+		if (method == "PUT") request.method_ = PUT;
 		request.fileSpec_ = httprequest.substr(pos + 1);
 	}
 	else {
@@ -98,7 +98,7 @@ HTTPRequest HTTPRequest::fromString(const std::string& httprequest)
 	return request;
 }
 
-HTTPBody& HTTPBody::operator=(const std::string& body)
+HTTPBody& HTTPBody::operator=(const std::string & body)
 {
 	body_.reserve(0);
 	body_.insert(body_.end(), body.begin(), body.end());
@@ -119,7 +119,7 @@ HTTPBody::byte HTTPBody::operator[](size_t i) const
 	return body_[i];
 }
 
-void HTTPBody::show(std::ostream& out) const{
+void HTTPBody::show(std::ostream & out) const {
 	out << "\nBody:";
 	for (size_t i = 0; i < body_.size(); i++) {
 		out << body_[i];
@@ -139,10 +139,10 @@ std::string HTTPBody::toString() const {
 
 int main(int argc, char** argv) {
 	using UTIL = StringHelper;
-	
+
 	//Testing EndPoint class
 	UTIL::Title("TESTING ENDPOINT CLASS");
-	EndPoint ep("localhost",27015);
+	EndPoint ep("localhost", 27015);
 	std::cout << "\n Endpoint:" << ep.toString();
 	ep = ep.fromString("198.168.1.1:27015");
 	std::cout << "\n Address: " << ep.getAddress();
@@ -152,7 +152,7 @@ int main(int argc, char** argv) {
 
 	//Testing HTTP Request class
 	UTIL::Title("TESTING HTTP Request CLASS");
-	HTTPRequest request(HTTPRequest::HTTPMethod::GET,"test.htm");
+	HTTPRequest request(HTTPRequest::HTTPMethod::GET, "test.htm");
 	std::cout << "\n Request method: " << request.getMethod();
 	std::cout << "\n Filespec: " << request.getfileSpec();
 	std::cout << "\n Header: " << request.toString(true);

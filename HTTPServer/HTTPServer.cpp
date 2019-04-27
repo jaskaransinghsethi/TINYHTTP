@@ -49,24 +49,29 @@ bool HTTPServerCore::containsKey(Key key)
 
 void ClientHandler::operator()(Sockets::Socket&& socket)
 {
-	pServer_->setSocket(&socket);
+	std::thread thread(
+		[&]() {
+			pServer_->setSocket(&socket);
 
-	HTTPMessage<HTTPRequest> msg = pServer_->getMessage();
-	msg.showMessage();
+			HTTPMessage<HTTPRequest> msg = pServer_->getMessage();
+			msg.showMessage();
 
-	HTTPMessage<HTTPResponse> reply = pServer_->doProc(msg);
+			HTTPMessage<HTTPResponse> reply = pServer_->doProc(msg);
 
-	pServer_->postMessage(reply);
-	reply.showMessage();
+			pServer_->postMessage(reply);
+			reply.showMessage();
 
-	socket.shutDown();
+			socket.shutDown();
+		}
+	);
+	thread.join();
 }
 
 #define TEST_SERVER
 #ifdef TEST_SERVER
 using UTIL = Utilities::StringHelper;
 int main() {
-	
+
 	try {
 		//Renaming console window to HTTP Client
 		SetConsoleTitle("HTTP Server");
@@ -82,16 +87,16 @@ int main() {
 		server.addProc("POST", postProc);
 		server.addProc("HEAD", headProc);
 		server.addProc("PUT", putProc);
+		server.addProc("DELETE", deleteProc);
 
 		ClientHandler cp(&server);
 		server.start<ClientHandler>(cp);
-		
-		//UTIL::title("Press any key to exit");
-		//
-		////Flushing the stream for any bad bit
-		//std::cout.flush();
-		////std::cin.get();
-		getchar();
+
+		UTIL::title("Press any key to exit");
+
+		//Flushing the stream for any bad bit
+		std::cout.flush();
+		std::cin.get();
 	}
 
 	catch (std::exception & ex) {

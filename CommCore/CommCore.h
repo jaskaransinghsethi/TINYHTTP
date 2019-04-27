@@ -15,11 +15,11 @@ public:
 
 	//Setter for socket
 	void setSocket(Sockets::Socket* socket) { pSocket_ = socket; }
-	
+
 	//Get message from the socket
 	template <typename T>
 	HTTPMessage<T> getMessage();
-	
+
 	//Post message to the socket
 	template <typename T>
 	void postMessage(HTTPMessage<T> msg);
@@ -38,7 +38,7 @@ inline HTTPMessage<T> CommCore::getMessage()
 		if (temp.length() < 3 || !pSocket_->validState())
 			break;
 	}
-	
+
 	HTTPMessage<T> httpMsg = HTTPMessage<T>::fromStringMsg(msg);
 
 	size_t bodyLen = httpMsg.getContentLength();

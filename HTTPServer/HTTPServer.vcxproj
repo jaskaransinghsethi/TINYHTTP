@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
-    <ProjectGuid>{76316ED1-2F24-42FD-8D0E-8042AB27670F}</ProjectGuid>
+    <ProjectGuid>{5643C25F-380A-4C91-9E85-23E01D90E736}</ProjectGuid>
     <RootNamespace>HTTPServer</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -70,18 +70,21 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\mongo-c-driver-master\include\libmongoc-1.0;C:\mongo-c-driver-master\include\libbson-1.0;</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_HAS_ITERATOR_DEBUGGING=0;_ITERATOR_DEBUG_LEVEL=0;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>C:\mongo-c-driver-master\lib\bson-1.0.lib;C:\mongo-c-driver-master\lib\mongoc-1.0.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
@@ -131,13 +134,19 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommCore\CommCore.vcxproj">
-      <Project>{369db6fb-24f9-4c1c-9cc2-6efae35d77eb}</Project>
+      <Project>{ef431ecc-99df-4778-b927-3544637d8f60}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Message\Message.vcxproj">
-      <Project>{474dac7d-66ed-4e2b-b545-8218a406544b}</Project>
+      <Project>{c7b006fa-b9c3-466d-acfb-71f5f8735d0b}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\MongoDB\MongoDB\MongoDB.vcxproj">
+      <Project>{0f79b2f2-92fa-42ef-9780-fcf04da13b8d}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Sockets\Sockets.vcxproj">
       <Project>{ca3129b8-1bf4-44c9-b116-53ec72d0bccb}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\Utilities.vcxproj">
+      <Project>{462b43b2-8b13-4178-bf2a-903f76f1985c}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

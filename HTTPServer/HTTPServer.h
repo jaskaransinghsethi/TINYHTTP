@@ -11,7 +11,7 @@ public:
 	HTTPServerCore() = default;
 	HTTPServerCore(Sockets::Socket* pSocket) : CommCore(pSocket) { }
 	virtual ~HTTPServerCore() { }
-	
+
 	HTTPMessage<HTTPRequest> getMessage();
 	void postMessage(HTTPMessage<HTTPResponse> msg);
 
@@ -40,7 +40,7 @@ private:
 
 class ClientHandler {
 public:
-	ClientHandler(HTTPServer *pServer) : pServer_(pServer) { }
+	ClientHandler(HTTPServer* pServer) : pServer_(pServer) { }
 	void operator()(Sockets::Socket&& socket);
 
 private:

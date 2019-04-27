@@ -14,7 +14,7 @@
 #include <functional>
 #include "Logger.h"
 #include "../Utilities/Utilities.h"
-
+//#define _ITERATOR_DEBUG_LEVEL 0
 //----< send text message to std::ostream >--------------------------
 
 void Logger::write(const std::string& msg)

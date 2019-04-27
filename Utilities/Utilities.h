@@ -1,5 +1,6 @@
 #ifndef UTILITIES_H
 #define UTILITIES_H
+//#define _ITERATOR_DEBUG_LEVEL 0
 ///////////////////////////////////////////////////////////////////////
 // Utilities.h - small, generally useful, helper classes             //
 // ver 1.3                                                           //

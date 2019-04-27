@@ -1,5 +1,6 @@
 #ifndef SOCKETS_H
 #define SOCKETS_H
+//#define _ITERATOR_DEBUG_LEVEL 0
 /////////////////////////////////////////////////////////////////////////
 // Sockets.h - C++ wrapper for Win32 socket api                        //
 // ver 5.3                                                             //
@@ -27,14 +28,14 @@
 *  - instances of this class are the only ones influenced by ipVer().
 *    clients will use whatever protocol the server provides.
 *  SocketSystem:
-*  - Loads and unloads winsock2 library.  
+*  - Loads and unloads winsock2 library.
 *  - Declared once at beginning of execution
 *
 *  Required Files:
 *  ---------------
-*  Sockets.h, Sockets.cpp, 
-*  Logger.h, Logger.cpp, 
-*  Utilities.h, Utililties.cpp, 
+*  Sockets.h, Sockets.cpp,
+*  Logger.h, Logger.cpp,
+*  Utilities.h, Utililties.cpp,
 *  WindowsHelpers.h, WindowsHelpers.cpp
 *
 *  Maintenance History:
@@ -42,7 +43,7 @@
 *  ver 5.3 : 07 Jan 2018
 *  - changed comments in SocketListener::start()
 *  ver 5.2 : 05 Oct 2017
-*  - changed Socket::recvString to append the terminating character, 
+*  - changed Socket::recvString to append the terminating character,
 *    newline by default
 *  - added removeTerminator method to remove the newly added terminator
 *    character
@@ -90,7 +91,7 @@
 *  - minor changes to comments
 *  - moved ClientHandler into test stub
 *  ver 4.3 : 26 Mar 15
-*  - fixed bug noticed by Tarun Rajput 
+*  - fixed bug noticed by Tarun Rajput
 *  - used '0' as terminator.  Should have been '\0'
 *  ver 4.2 : 26 Mar 15
 *  - several small changes to the Socket class interface
@@ -98,7 +99,7 @@
 *  - fixed connection bug that prevented connecting to anything
 *    other than a loopback (localhost, 127.0.0.1, ::1) by
 *    adding winsock code to SocketConnecter().
-*  - removed low-level code from ClientProc 
+*  - removed low-level code from ClientProc
 *    (server's client handler callable object)
 *    replaced with code written to Socket interface
 *  Ver 4.0 : 24 Mar 15
@@ -141,164 +142,164 @@
 
 namespace Sockets
 {
-  /////////////////////////////////////////////////////////////////////////////
-  // SocketSystem class - manages loading and unloading Winsock library
+	/////////////////////////////////////////////////////////////////////////////
+	// SocketSystem class - manages loading and unloading Winsock library
 
-  class SocketSystem
-  {
-  public:
-    SocketSystem();
-    ~SocketSystem();
-  private:
-    int iResult;
-    WSADATA wsaData;
-  };
+	class SocketSystem
+	{
+	public:
+		SocketSystem();
+		~SocketSystem();
+	private:
+		int iResult;
+		WSADATA wsaData;
+	};
 
-  /////////////////////////////////////////////////////////////////////////////
-  // Socket class
-  // - used by server for client handling
-  // - base for SocketConnecter and SocketListener classes
+	/////////////////////////////////////////////////////////////////////////////
+	// Socket class
+	// - used by server for client handling
+	// - base for SocketConnecter and SocketListener classes
 
-  class Socket
-  {
-  public:
-    enum IpVer { IP4, IP6 };
-    using byte = char;
+	class Socket
+	{
+	public:
+		enum IpVer { IP4, IP6 };
+		using byte = char;
 
-    // disable copy construction and assignment
-    Socket(const Socket& s) = delete;
-    Socket& operator=(const Socket& s) = delete;
+		// disable copy construction and assignment
+		Socket(const Socket& s) = delete;
+		Socket& operator=(const Socket& s) = delete;
 
-    Socket(IpVer ipver = IP4);
-    Socket(::SOCKET);
-    Socket(Socket&& s);
-    operator ::SOCKET() { return socket_; }
-    Socket& operator=(Socket&& s);
-    virtual ~Socket();
+		Socket(IpVer ipver = IP4);
+		Socket(::SOCKET);
+		Socket(Socket&& s);
+		operator ::SOCKET() { return socket_; }
+		Socket& operator=(Socket&& s);
+		virtual ~Socket();
 
-    IpVer& ipVer();
-    bool send(size_t bytes, byte* buffer);
-    bool recv(size_t bytes, byte* buffer);
-    size_t sendStream(size_t bytes, byte* buffer);
-    size_t recvStream(size_t bytes, byte* buffer);
-    bool sendString(const std::string& str, byte terminator = '\0');
-    std::string recvString(byte terminator = '\0');
-    static std::string removeTerminator(const std::string& src);
-    size_t bytesWaiting();
-    bool waitForData(size_t timeToWait, size_t timeToCheck);
-    bool shutDownSend();
-    bool shutDownRecv();
-    bool shutDown();
-    void close();
+		IpVer& ipVer();
+		bool send(size_t bytes, byte* buffer);
+		bool recv(size_t bytes, byte* buffer);
+		size_t sendStream(size_t bytes, byte* buffer);
+		size_t recvStream(size_t bytes, byte* buffer);
+		bool sendString(const std::string& str, byte terminator = '\0');
+		std::string recvString(byte terminator = '\0');
+		static std::string removeTerminator(const std::string& src);
+		size_t bytesWaiting();
+		bool waitForData(size_t timeToWait, size_t timeToCheck);
+		bool shutDownSend();
+		bool shutDownRecv();
+		bool shutDown();
+		void close();
 
-    bool validState() { return socket_ != INVALID_SOCKET; }
+		bool validState() { return socket_ != INVALID_SOCKET; }
 
-  protected:
-    WSADATA wsaData;
-    ::SOCKET socket_;
-    struct addrinfo *result = NULL, *ptr = NULL, hints;
-    int iResult;
-    IpVer ipver_ = IP4;
-  };
+	protected:
+		WSADATA wsaData;
+		::SOCKET socket_;
+		struct addrinfo* result = NULL, * ptr = NULL, hints;
+		int iResult;
+		IpVer ipver_ = IP4;
+	};
 
-  /////////////////////////////////////////////////////////////////////////////
-  // SocketConnecter class
-  // - supports connecting to a SocketListener
+	/////////////////////////////////////////////////////////////////////////////
+	// SocketConnecter class
+	// - supports connecting to a SocketListener
 
-  class SocketConnecter : public Socket
-  {
-  public:
-    SocketConnecter(const SocketConnecter& s) = delete;
-    SocketConnecter& operator=(const SocketConnecter& s) = delete;
+	class SocketConnecter : public Socket
+	{
+	public:
+		SocketConnecter(const SocketConnecter& s) = delete;
+		SocketConnecter& operator=(const SocketConnecter& s) = delete;
 
-    SocketConnecter();
-    SocketConnecter(SocketConnecter&& s);
-    SocketConnecter& operator=(SocketConnecter&& s);
-    virtual ~SocketConnecter();
+		SocketConnecter();
+		SocketConnecter(SocketConnecter&& s);
+		SocketConnecter& operator=(SocketConnecter&& s);
+		virtual ~SocketConnecter();
 
-    bool connect(const std::string& ip, size_t port);
-  };
+		bool connect(const std::string& ip, size_t port);
+	};
 
-  /////////////////////////////////////////////////////////////////////////////
-  // SocketListener class
-  // - listens for incoming connections
-  // - each connection is handled on its own thread
+	/////////////////////////////////////////////////////////////////////////////
+	// SocketListener class
+	// - listens for incoming connections
+	// - each connection is handled on its own thread
 
-  class SocketListener : public Socket
-  {
-  public:
-    SocketListener(const SocketListener& s) = delete;
-    SocketListener& operator=(const SocketListener& s) = delete;
+	class SocketListener : public Socket
+	{
+	public:
+		SocketListener(const SocketListener& s) = delete;
+		SocketListener& operator=(const SocketListener& s) = delete;
 
-    SocketListener(size_t port, IpVer ipv = IP6);
-    SocketListener(SocketListener&& s);
-    SocketListener& operator=(SocketListener&& s);
-    virtual ~SocketListener();
+		SocketListener(size_t port, IpVer ipv = IP6);
+		SocketListener(SocketListener&& s);
+		SocketListener& operator=(SocketListener&& s);
+		virtual ~SocketListener();
 
-    template<typename CallObj>
-    bool start(CallObj& co);
-    void stop();
-  private:
-    bool bind();
-    bool listen();
-    Socket accept();
-    std::atomic<bool> stop_ = false;
-    size_t port_;
-    bool acceptFailed_ = false;
-  };
+		template<typename CallObj>
+		bool start(CallObj& co);
+		void stop();
+	private:
+		bool bind();
+		bool listen();
+		Socket accept();
+		std::atomic<bool> stop_ = false;
+		size_t port_;
+		bool acceptFailed_ = false;
+	};
 
-  //----< SocketListener start function runs listener on its own thread >------
-  /*
-  *  - Accepts Callable Object that defines the operations
-  *    to handle client requests.
-  *  - You will find an example Callable Object, ClientProc,
-  *    used in the test stub below
-  */
-  template<typename CallObj>
-  bool SocketListener::start(CallObj& co)
-  {
-    if (!bind())
-    {
-      return false;
-    }
+	//----< SocketListener start function runs listener on its own thread >------
+	/*
+	*  - Accepts Callable Object that defines the operations
+	*    to handle client requests.
+	*  - You will find an example Callable Object, ClientProc,
+	*    used in the test stub below
+	*/
+	template<typename CallObj>
+	bool SocketListener::start(CallObj& co)
+	{
+		if (!bind())
+		{
+			return false;
+		}
 
-    if (!listen())
-    {
-      return false;
-    }
-    // listen on a dedicated thread so server's main thread won't block
+		if (!listen())
+		{
+			return false;
+		}
+		// listen on a dedicated thread so server's main thread won't block
 
-    std::thread ListenThread(
-      [&]()
-    {
-      StaticLogger<1>::write("\n  -- server waiting for connection");
+		std::thread ListenThread(
+			[&]()
+			{
+				StaticLogger<1>::write("\n  -- server waiting for connection");
 
-      while (!acceptFailed_)
-      {
-        if (stop_.load())
-          break;
+				while (!acceptFailed_)
+				{
+					if (stop_.load())
+						break;
 
-        // Accept a client socket - blocking call
+					// Accept a client socket - blocking call
 
-        Socket clientSocket = accept();    // uses move ctor
-        if (!clientSocket.validState()) {
-          continue;
-        }
-        //StaticLogger<1>::write("\n  -- server accepted connection");
+					Socket clientSocket = accept();    // uses move ctor
+					if (!clientSocket.validState()) {
+						continue;
+					}
+					//StaticLogger<1>::write("\n  -- server accepted connection");
 
-        // start thread to handle client request
+					// start thread to handle client request
 
-        // pass co by value to avoid interactions between threads
+					// pass co by value to avoid interactions between threads
 
-        std::thread clientThread(co, std::move(clientSocket));
-        clientThread.detach();  // detach - listener won't access thread again
-      }
-      StaticLogger<1>::write("\n  -- Listen thread stopping");
-    }
-    );
-    ListenThread.detach();
-    return true;
-  }
+					std::thread clientThread(co, std::move(clientSocket));
+					clientThread.detach();  // detach - listener won't access thread again
+				}
+				StaticLogger<1>::write("\n  -- Listen thread stopping");
+			}
+		);
+		ListenThread.detach();
+		return true;
+	}
 }
 #endif
 

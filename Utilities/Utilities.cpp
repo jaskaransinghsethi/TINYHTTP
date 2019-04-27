@@ -6,7 +6,7 @@
 // Author:      Jim Fawcett, Syracuse University, CST 4-187          //
 //              jfawcett@twcny.rr.com                                //
 ///////////////////////////////////////////////////////////////////////
-
+//#define _ITERATOR_DEBUG_LEVEL 0
 #include <cctype>
 #include <iostream>
 #include "Utilities.h"

@@ -1,0 +1,65 @@
+﻿<UserControl x:Class="WPFClient.HTTPControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WPFClient"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    
+    <Grid>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="AUTO"></RowDefinition>
+            <RowDefinition Height="AUTO"></RowDefinition>
+            <RowDefinition Height="AUTO"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="AUTO"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <ComboBox Grid.Column="0" Grid.Row="0" x:Name="methodType">
+            <ComboBoxItem Content="GET" IsSelected="True" DataContext="GET" ></ComboBoxItem>
+            <ComboBoxItem Content="POST"></ComboBoxItem>
+            <ComboBoxItem Content="HEAD"></ComboBoxItem>
+            <ComboBoxItem Content="PUT"></ComboBoxItem>
+            <ComboBoxItem Content="DELETE"></ComboBoxItem>
+        </ComboBox>
+
+        <TextBox Grid.Column="1" Grid.Row="0" Name="servLink"></TextBox>
+
+
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Vertical" Name="attrbStack">
+            <TextBox IsEnabled="False">Add Attributes to the Message</TextBox>
+
+            <Grid Name="attrbGrid">
+                
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <TextBox Grid.Row="0" Grid.Column="0" Name="K1" KeyDown="TKey_KeyDown">Key
+                </TextBox>
+            <TextBox Grid.Row="0" Grid.Column="1" Name ="V1" KeyDown="TValue_KeyDown">Value</TextBox>
+            </Grid>
+            
+            <Button Content="Add Attribute" HorizontalAlignment="Center" Click="Attribute_Click"></Button>
+
+            <Label>Body:</Label>
+            <TextBox VerticalAlignment="Stretch" Height="200" Name="msgBody" KeyDown="MsgBody_KeyDown"></TextBox>
+        </StackPanel>
+
+        <StackPanel Grid.Row="3" Grid.ColumnSpan="2" VerticalAlignment="Bottom" Orientation="Horizontal">
+            <Button Width="450" Content="Send" Click="Send_Click"></Button>
+            <Button Width="450" Content="Clear Attributes" Click="Button_Click"></Button>
+        </StackPanel>
+        </Grid>
+</UserControl>
