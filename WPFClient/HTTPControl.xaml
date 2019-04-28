@@ -12,8 +12,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="AUTO"></RowDefinition>
             <RowDefinition Height="AUTO"></RowDefinition>
-            <RowDefinition Height="AUTO"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="AUTO"></RowDefinition>
         </Grid.RowDefinitions>
         
         <Grid.ColumnDefinitions>
@@ -57,9 +57,10 @@
             <TextBox VerticalAlignment="Stretch" Height="200" Name="msgBody" KeyDown="MsgBody_KeyDown"></TextBox>
         </StackPanel>
 
-        <StackPanel Grid.Row="3" Grid.ColumnSpan="2" VerticalAlignment="Bottom" Orientation="Horizontal">
+        <!--<StackPanel Grid.Row="3" Grid.ColumnSpan="2" VerticalAlignment="Bottom" Orientation="Horizontal">
             <Button Width="450" Content="Send" Click="Send_Click"></Button>
             <Button Width="450" Content="Clear Attributes" Click="Button_Click"></Button>
-        </StackPanel>
+        </StackPanel>-->
+        <Button Grid.Row="3" Grid.ColumnSpan="2" VerticalAlignment="Bottom" Content="Send" Click="Send_Click"></Button>
         </Grid>
 </UserControl>

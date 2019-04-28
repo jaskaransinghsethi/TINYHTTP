@@ -75,7 +75,14 @@ namespace WPFClient
                 DispView.msgBody.Text = response[1];
 
             DispView.replyTime.Text = time.ToString() + "ms";
+
+            staturBar.Text = "Disconnected";
+            attributes_.Clear();
         }
-        
+
+        private void Window_Unloaded(object sender, RoutedEventArgs e)
+        {
+            Environment.Exit(99);
+        }
     }
 }

@@ -1,5 +1,5 @@
 #pragma once
-//#define _ITERATOR_DEBUG_LEVEL 2
+
 #include "../CommCore/CommCore.h"
 #include "../Message/Message.h"
 #include "IHTTPClient.h"

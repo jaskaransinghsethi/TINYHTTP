@@ -16,7 +16,7 @@ inline HTTPMessage<HTTPResponse> insertReq(HTTPMessage<HTTPRequest>& msg) {
 	HTTPMessage<HTTPResponse> reply;
 	MongoDB instance;
 	instance.createConnection();
-	std::vector<std::string> temp1 = Utilities::StringHelper::split(msg.getAttributes()["db&Collection"], '&');
+	std::vector<std::string> temp1 = Utilities::StringHelper::split(msg.getAttributes()["db&collection"], '&');
 	if (temp1.size() < 2) {
 		reply.getType().setStatusCode(400);
 		reply.clear();
@@ -50,7 +50,7 @@ inline HTTPMessage<HTTPResponse> deleteReq(HTTPMessage<HTTPRequest>& msg) {
 	HTTPMessage<HTTPResponse> reply;
 	MongoDB instance;
 	instance.createConnection();
-	std::vector<std::string> temp1 = Utilities::StringHelper::split(msg.getAttributes()["db&Collection"], '&');
+	std::vector<std::string> temp1 = Utilities::StringHelper::split(msg.getAttributes()["db&collection"], '&');
 	if (temp1.size() < 2) {
 		reply.getType().setStatusCode(400);
 		reply.clear();
@@ -85,7 +85,7 @@ inline HTTPMessage<HTTPResponse> findReq(HTTPMessage<HTTPRequest>& msg) {
 	HTTPMessage<HTTPResponse> reply;
 	MongoDB instance;
 	instance.createConnection();
-	std::vector<std::string> temp1 = Utilities::StringHelper::split(msg.getAttributes()["db&Collection"], '&');
+	std::vector<std::string> temp1 = Utilities::StringHelper::split(msg.getAttributes()["db&collection"], '&');
 	if (temp1.size() < 2) {
 		reply.getType().setStatusCode(400);
 		reply.clear();
@@ -127,7 +127,7 @@ inline HTTPMessage<HTTPResponse> findAllReq(HTTPMessage<HTTPRequest>& msg) {
 	HTTPMessage<HTTPResponse> reply;
 	MongoDB instance;
 	instance.createConnection();
-	std::vector<std::string> temp1 = Utilities::StringHelper::split(msg.getAttributes()["db&Collection"], '&');
+	std::vector<std::string> temp1 = Utilities::StringHelper::split(msg.getAttributes()["db&collection"], '&');
 	if (temp1.size() < 2) {
 		reply.getType().setStatusCode(400);
 		reply.clear();
@@ -309,6 +309,7 @@ inline HTTPMessage<HTTPResponse> putProc(HTTPMessage<HTTPRequest> msg) {
 	if (pos != fileSpec.npos) {
 		name = fileSpec.substr(pos + 1, fileSpec.size() - pos);
 	}
+	else name = fileSpec;
 	std::string path(buffer);
 	path = path + "\\Storage\\";
 

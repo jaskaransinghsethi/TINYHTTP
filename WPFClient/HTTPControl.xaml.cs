@@ -140,18 +140,5 @@ namespace WPFClient
                 }
             }
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            MainWindow win = (MainWindow)Window.GetWindow(this);
-
-            foreach (UIElement uie in attrbGrid.Children)
-            {
-                if (((System.Windows.FrameworkElement)uie).Name != "K1" && ((System.Windows.FrameworkElement)uie).Name != "V1")
-                {
-                    //attrbGrid.Children.Remove(uie);
-                }
-            }
-        }
     }
 }

@@ -161,9 +161,6 @@
     <ProjectReference Include="..\HTTPClient\HTTPClient.vcxproj">
       <Project>{76c0f5bd-b6cd-4a95-8780-393c2887b6cd}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Message\Message.vcxproj">
-      <Project>{c7b006fa-b9c3-466d-acfb-71f5f8735d0b}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
